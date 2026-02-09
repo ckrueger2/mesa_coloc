@@ -27,7 +27,7 @@ my_bucket <- Sys.getenv('WORKSPACE_BUCKET')
 #PERFORM COMMAND LINE FORMATTING FOR S-PREDIXCAN FILE
 
 #unzip files
-command2 <- paste0("gsutil cat ", my_bucket, "/data/mesa_full_snp_list", args$pop, ".csv.gz | gunzip > /tmp/mesa_full_snp_list", args$pop, ".txt")
+command2 <- paste0("gsutil cat ", my_bucket, "/data/mesa_full_snp_list.csv.gz | gunzip > /tmp/mesa_full_snp_list", args$pop, ".txt")
 system(command2)
 
 #format reference file
