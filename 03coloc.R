@@ -179,7 +179,6 @@ if (length(common_variants) > 0) {
     quote = FALSE
   )
     
-  } else {
+} else {
     cat("No common variants found for", phenotype, "\n")
-  }
 }
