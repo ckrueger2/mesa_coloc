@@ -45,10 +45,11 @@ echo "  db_pop   ($DBPOP_COLNAME)   -> $DBPOP_I"
 echo "  gwas_pop ($GWASPOP_COLNAME) -> $GWASPOP_I"
 echo
 
-#loop over rows (skip header)
-awk -v FS='\t' -v phe_i="$PHECODE_I" -v oid_i="$OID_I" -v db_i="$DBPOP_I" -v gwas_i="$GWASPOP_I" '
+awk -v FS=$'\t' -v phe_i="$PHECODE_I" -v oid_i="$OID_I" -v db_i="$DBPOP_I" -v gwas_i="$GWASPOP_I" '
   NR>1{
-    print $phe_i "\t" $oid_i "\t" $db_i "\t" $gwas_i
+    phe=$phe_i; oid=$oid_i; db=$db_i; gwas=$gwas_i
+    gsub(/\r/,"",phe); gsub(/\r/,"",oid); gsub(/\r/,"",db); gsub(/\r/,"",gwas)
+    printf "%s\t%s\t%s\t%s\n", phe, oid, db, gwas
   }' "$IN" \
 | while IFS=$'\t' read -r phecode OlinkID db_pop gwas_pop; do
 
