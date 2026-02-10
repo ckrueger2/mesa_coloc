@@ -61,7 +61,6 @@ awk -v FS='\t' -v phe_i="$PHECODE_I" -v oid_i="$OID_I" -v db_i="$DBPOP_I" -v gwa
       --phecode "$phecode" \
       --oid "$OlinkID" \
       --db_pop "$db_pop" \
-      --gwas_pop "$gwas_pop" \
-      --out "$OUT"
+      --gwas_pop "$gwas_pop"
 
 done
