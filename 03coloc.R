@@ -126,7 +126,8 @@ if (length(common_variants) > 0) {
   #assign outputs
   cc <- phe_counts[[phecode]][[aou_pop]]
   aou_pop_size <- as.integer(cc["case"] + cc["control"])
-  aou_cases    <- as.integer(cc["case"]/aou_pop_size)
+  aou_cases <- cc[["case"]] / aou_pop_size
+
   
   #prepare datasets
   dataset1 <- list(
