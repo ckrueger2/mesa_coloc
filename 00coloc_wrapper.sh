@@ -55,7 +55,7 @@ awk -v FS='\t' -v phe_i="$PHECODE_I" -v oid_i="$OID_I" -v db_i="$DBPOP_I" -v gwa
     # skip empty lines
     [[ -z "${phecode// }" ]] && continue
 
-    echo "Running: phecode=$phecode oid=$OlinkID db_pop=$db_pop gwas_pop=$gwas_pop"
+    echo "Running: phecode = $phecode, oid = $OlinkID, db_pop = $db_pop, gwas_pop = $gwas_pop"
 
     Rscript ~/mesa_coloc/03coloc.R \
       --phecode "$phecode" \
