@@ -158,28 +158,26 @@ if (length(common_variants) > 0) {
   cat("\n")
   outfile <- "/home/jupyter/coloc_output.txt"
   
-  if (nrow(common) > 0) {
-    
-    result <- coloc.abf(dataset1, dataset2)
-    
-    row <- data.frame(
-      phecode = args$phecode,
-      olink_id = args$oid,
-      mesa_pop = args$db_pop,
-      aou_pop = args$gwas_pop,
-      t(result$summary),
-      check.names = FALSE
-    )
-    
-    write.table(
-      row,
-      file = outfile,
-      sep = "\t",
-      row.names = FALSE,
-      col.names = !file.exists(outfile),
-      append = TRUE,
-      quote = FALSE
-    )
+  result <- coloc.abf(dataset1, dataset2)
+  
+  row <- data.frame(
+    phecode = args$phecode,
+    olink_id = args$oid,
+    mesa_pop = args$db_pop,
+    aou_pop = args$gwas_pop,
+    t(result$summary),
+    check.names = FALSE
+  )
+  
+  write.table(
+    row,
+    file = outfile,
+    sep = "\t",
+    row.names = FALSE,
+    col.names = !file.exists(outfile),
+    append = TRUE,
+    quote = FALSE
+  )
     
   } else {
     cat("No common variants found for", phenotype, "\n")
