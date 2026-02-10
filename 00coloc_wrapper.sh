@@ -21,6 +21,18 @@ DBPOP_COLNAME="db_pop"
 GWASPOP_COLNAME="gwas_pop_aou"
 # -----------------------------------------------
 
+#find column indices by header name (tab-separated)
+get_col() {
+  local name="$1"
+  awk -v FS='\t' -v colname="$name" '
+    NR==1{
+      for(i=1;i<=NF;i++){
+        if($i==colname){ print i; exit }
+      }
+      exit 1
+    }' "$IN"
+}
+
 PHECODE_I=$(get_col "$PHECODE_COLNAME") || { echo "Missing column: $PHECODE_COLNAME"; exit 1; }
 OID_I=$(get_col "$OID_COLNAME")         || { echo "Missing column: $OID_COLNAME"; exit 1; }
 DBPOP_I=$(get_col "$DBPOP_COLNAME")     || { echo "Missing column: $DBPOP_COLNAME"; exit 1; }
