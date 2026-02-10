@@ -59,7 +59,7 @@ awk -v FS='\t' -v phe_i="$PHECODE_I" -v oid_i="$OID_I" -v db_i="$DBPOP_I" -v gwa
 
     Rscript ~/mesa_coloc/03coloc.R \
       --phecode "$phecode" \
-      --oid "$oid" \
+      --oid "$OlinkID" \
       --db_pop "$db_pop" \
       --gwas_pop "$gwas_pop" \
       --out "$OUT"
