@@ -13,13 +13,9 @@ rm -f "$OUT"
 
 #set column names to index
 PHECODE_COLNAME="aou_code"
-# MESA phenotype id column (should be something like OIDxxxxx)
 OID_COLNAME="OlinkID"
-# MESA population id
 DBPOP_COLNAME="db_pop"
-# AoU population id
 GWASPOP_COLNAME="gwas_pop_aou"
-# -----------------------------------------------
 
 #find column indices by header name (tab-separated)
 get_col() {
@@ -38,13 +34,6 @@ OID_I=$(get_col "$OID_COLNAME")         || { echo "Missing column: $OID_COLNAME"
 DBPOP_I=$(get_col "$DBPOP_COLNAME")     || { echo "Missing column: $DBPOP_COLNAME"; exit 1; }
 GWASPOP_I=$(get_col "$GWASPOP_COLNAME") || { echo "Missing column: $GWASPOP_COLNAME"; exit 1; }
 
-echo "Using columns:"
-echo "  phecode  ($PHECODE_COLNAME) -> $PHECODE_I"
-echo "  oid      ($OID_COLNAME)     -> $OID_I"
-echo "  db_pop   ($DBPOP_COLNAME)   -> $DBPOP_I"
-echo "  gwas_pop ($GWASPOP_COLNAME) -> $GWASPOP_I"
-echo
-
 awk -v FS=$'\t' -v phe_i="$PHECODE_I" -v oid_i="$OID_I" -v db_i="$DBPOP_I" -v gwas_i="$GWASPOP_I" '
   NR>1{
     phe=$phe_i; oid=$oid_i; db=$db_i; gwas=$gwas_i
@@ -53,7 +42,7 @@ awk -v FS=$'\t' -v phe_i="$PHECODE_I" -v oid_i="$OID_I" -v db_i="$DBPOP_I" -v gw
   }' "$IN" \
 | while IFS=$'\t' read -r phecode OlinkID db_pop gwas_pop; do
 
-    # skip empty lines
+    #skip empty lines
     [[ -z "${phecode// }" ]] && continue
 
     echo "Running: phecode = $phecode, oid = $OlinkID, db_pop = $db_pop, gwas_pop = $gwas_pop"
