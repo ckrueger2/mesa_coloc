@@ -127,7 +127,6 @@ if (length(common_variants) > 0) {
   cc <- phe_counts[[phecode]][[aou_pop]]
   aou_pop_size <- as.integer(cc["case"] + cc["control"])
   aou_cases <- cc[["case"]] / aou_pop_size
-
   
   #prepare datasets
   dataset1 <- list(
@@ -153,12 +152,10 @@ if (length(common_variants) > 0) {
   result <- coloc.abf(dataset1, dataset2)
   
   #view summary
-  cat("Results for", phenotype, ":\n")
+  cat("Results for", phenotype, "\n")
   print(result$summary)
   cat("\n")
   outfile <- "/home/jupyter/coloc_output.txt"
-  
-  result <- coloc.abf(dataset1, dataset2)
   
   row <- data.frame(
     phecode = args$phecode,
