@@ -44,6 +44,8 @@ phenotype <- args$oid
 
 #filter QTL data for current phenotype
 qtl_subset <- qtl_data[qtl_data$phenotype_id == phenotype, ]
+nrow(qtl_subset)
+head(qtl_subset)
 
 #find common SNPs for each phenotype
 common_variants <- intersect(qtl_subset$variant_id, gwas_data$ID)
