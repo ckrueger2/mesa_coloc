@@ -40,7 +40,7 @@ gwas_data <- fread(name_of_gwas_file, header=TRUE)
 
 #extract phenotype
 phenotype <- args$oid
-cat("Processing" , phenotype, "for MESA", db_pop, "+ AoU", gwas_pop, "\n")
+#cat("Processing" , phenotype, "for MESA", args$db_pop, "+ AoU", args$gwas_pop, "\n")
 
 #filter QTL data for current phenotype
 qtl_subset <- qtl_data[qtl_data$phenotype_id == phenotype, ]
