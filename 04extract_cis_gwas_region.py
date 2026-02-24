@@ -98,7 +98,7 @@ print(f"Table dimensions: {rows} rows x {cols} columns")
 ordered_ht_chr = ordered_ht.filter(ordered_ht.CHR == chrom)
 extracted_region = ordered_ht_chr.filter(left < ordered_ht_chr.POS < right)
 num_snps = extracted_region.count()
-print(f"Number of SNPs: {num_snps})
+print(f"Number of SNPs: {num_snps}")
 
 #save filtered file
 filtered_path = f'{bucket}/data/{pop}_cis_region_{phenotype_id}.tsv'
