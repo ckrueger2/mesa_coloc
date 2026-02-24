@@ -102,7 +102,7 @@ print(f"Number of SNPs: {num_snps}")
 
 #save filtered file
 filtered_path = f'{bucket}/data/{pop}_cis_region_{phenotype_id}.tsv'
-sig_snps_sorted.export(filtered_path)
+extracted_region.export(filtered_path)
 
 #CHECK IF FILES ARE SAVED TO BUCKET
 #full file
@@ -130,28 +130,3 @@ try:
 except subprocess.CalledProcessError:
     #if command failed
     sys.exit(f"ERROR: File '{filtered_path}' was not found in {bucket}/data/.\n")
-
-#print sample size and heritability if available
-print("Available Global Fields:")
-print(global_fields)
-print()
-
-print("APPLY THE FOLLOWING VALUES TO S-PREDIXCAN IF AVAILABLE:")
-if 'n_cases' in global_fields:
-    print(f"Number of cases: {n_cases}")
-else:
-    print("Number of cases: Not available")
-
-if 'n_controls' in global_fields:
-    print(f"Number of controls: {n_controls}")
-else:
-    print("Number of controls: Not available")
-
-if n_controls is not None and n_cases is not None:
-    n_total = int(n_controls) + int(n_cases)
-    print(f"Sample Size (n): {n_total}")
-    
-if 'heritability' in global_fields:
-    print(f"Heritability: {heritability}")
-else:
-    print("Heritability: Not available")
