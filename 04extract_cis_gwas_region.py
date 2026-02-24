@@ -28,7 +28,7 @@ args = check_arg(sys.argv[1:])
 
 phenotype_id = args.phecode
 pop = args.pop
-chrom = int(args.chrom)
+chrom = (args.chrom)
 left = int(args.left)
 right = int(args.right)
 
