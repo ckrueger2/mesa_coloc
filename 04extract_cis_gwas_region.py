@@ -118,7 +118,7 @@ except subprocess.CalledProcessError:
     #if command failed
     sys.exit(f"ERROR: File '{ht_path}' was not found in {bucket}/data/.\n")
     
-#pvalue file
+#filtered file
 try:
     check_filtered = subprocess.check_output(
         f"gsutil ls {bucket}/data/ | grep {filtered_path}", 
@@ -127,6 +127,10 @@ try:
     )
     #if command succeeded 
     print("Cis region filtered file successfully saved to bucket.\n")
+
+copy_command = f"gsutil cp {filtered_path} /home/jupyter/
+os.system(copy_command)
+
 except subprocess.CalledProcessError:
     #if command failed
     sys.exit(f"ERROR: File '{filtered_path}' was not found in {bucket}/data/.\n")
