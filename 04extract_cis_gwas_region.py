@@ -28,9 +28,9 @@ args = check_arg(sys.argv[1:])
 
 phenotype_id = args.phecode
 pop = args.pop
-chrom = as.numeric(args.chrom)
-left = as.numeric(args.left)
-right = as.numeric(args.right)
+chrom = int(args.chrom)
+left = int(args.left)
+right = int(args.right)
 
 #check if phecode file exists
 path = f"gs://fc-aou-datasets-controlled/AllxAll/v1/ht/ACAF/{pop}/phenotype_{phenotype_id}_ACAF_results.ht"
