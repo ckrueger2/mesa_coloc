@@ -30,13 +30,14 @@ def normalize_chr(c: str) -> str:
     return c
 
 def main():
-    ap = argparse.ArgumentParser(description="AoU: export region PLINK + compute LD (gz) for META/EUR/AFR/AMR, subset to sumstats IDs.")
+    ap = argparse.ArgumentParser(description="AoU: export region PLINK + compute LD (gz), subset to sumstats IDs.")
     ap.add_argument("--gene", required=True, help="Label for output (e.g., IL4R)")
     ap.add_argument("--phecode", required=True, help="Phenotype code used in sumstats filename (e.g., EM_239)")
     ap.add_argument("--chr", required=True, help="Chromosome (e.g., chr1, 1, chrX, X, 23)")
     ap.add_argument("--left", type=int, required=True, help="Left bp (inclusive)")
     ap.add_argument("--right", type=int, required=True, help="Right bp (inclusive)")
     ap.add_argument("--threads", type=int, default=8, help="PLINK threads (default 8)")
+    ap.add_argument("--max_samples", type=int, default=50000, help="Downsample to at most this many samples per pop (default 50000)")
     args = ap.parse_args()
 
     bucket = os.getenv("WORKSPACE_BUCKET")
@@ -54,8 +55,7 @@ def main():
             hl.current_backend()
         except Exception:
             hl.init(**kwargs)
-    
-    # Usage
+
     ensure_hail_initialized()
 
     #load MT + ancestry and join
@@ -80,7 +80,18 @@ def main():
 
         #filter samples
         mt_pop = mt if anc_code is None else mt.filter_cols(mt.anc.ancestry_pred == anc_code)
-        print("Samples:", mt_pop.count_cols())
+
+        # ---- DOWNSAMPLE HERE ----
+        n0 = mt_pop.count_cols()
+        print("Samples (before downsample):", n0)
+
+        if args.max_samples and n0 > args.max_samples:
+            frac = args.max_samples / n0
+            mt_pop = mt_pop.sample_cols(frac, seed=1)
+            print("Samples (after downsample):", mt_pop.count_cols())
+        else:
+            print("Samples (after downsample):", n0)
+        # -------------------------
 
         #region filter
         mt_reg = mt_pop.filter_rows(
