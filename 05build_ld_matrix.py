@@ -81,17 +81,15 @@ def main():
         #filter samples
         mt_pop = mt if anc_code is None else mt.filter_cols(mt.anc.ancestry_pred == anc_code)
 
-        # ---- DOWNSAMPLE HERE ----
+        # downsample
         n0 = mt_pop.count_cols()
         print("Samples (before downsample):", n0)
-
         if args.max_samples and n0 > args.max_samples:
             frac = args.max_samples / n0
             mt_pop = mt_pop.sample_cols(frac, seed=1)
             print("Samples (after downsample):", mt_pop.count_cols())
         else:
             print("Samples (after downsample):", n0)
-        # -------------------------
 
         #region filter
         mt_reg = mt_pop.filter_rows(
@@ -100,11 +98,24 @@ def main():
             (mt_pop.locus.position <= right)
         )
 
-        #load sumstats for this pop and key by ID
+        # ---- CHANGED: import only needed sumstats fields, filter to region BEFORE keying ----
         ss_path = f"{bucket}/data/{pop}_coloc_mesa_{args.phecode}.tsv"
         print("Sumstats:", ss_path)
 
-        ss = hl.import_table(ss_path, impute=True).key_by("ID")
+        ss = hl.import_table(
+            ss_path,
+            delimiter="\t",
+            impute=False,
+            types={"ID": hl.tstr, "CHR": hl.tstr, "POS": hl.tint32},
+            missing=""
+        )
+
+        # filter sumstats to this region first (reduces shuffle a ton)
+        ss = ss.filter((ss.CHR == chrom) & (ss.POS >= left) & (ss.POS <= right))
+
+        # now key only the (much smaller) filtered table
+        ss = ss.select("ID").key_by("ID")
+        # -------------------------------------------------------------------------------
 
         #subset MT variants to those present in sumstats IDs
         mt_reg = mt_reg.filter_rows(hl.is_defined(ss[mt_reg.varid]))
