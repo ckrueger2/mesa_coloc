@@ -11,10 +11,10 @@ ANC_PATH = "gs://fc-aou-datasets-controlled/v8/wgs/short_read/snpindel/aux/ances
 
 #pops to run (META = all samples)
 POPS = {
-    "META": None,
+#    "META": None,
     "EUR":  "eur",
-    "AFR":  "afr",
-    "AMR":  "amr",
+#    "AFR":  "afr",
+#    "AMR":  "amr",
 }
 
 def sh(cmd):
@@ -49,7 +49,14 @@ def main():
     chrom = normalize_chr(args.chr)
     left, right = args.left, args.right
 
-    hl.init()
+    def ensure_hail_initialized(**kwargs):
+        try:
+            hl.current_backend()
+        except Exception:
+            hl.init(**kwargs)
+    
+    # Usage
+    ensure_hail_initialized()
 
     #load MT + ancestry and join
     mt = hl.read_matrix_table(MT_PATH)
