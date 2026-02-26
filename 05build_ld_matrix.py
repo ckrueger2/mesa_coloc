@@ -11,8 +11,8 @@ ANC_PATH = "gs://fc-aou-datasets-controlled/v8/wgs/short_read/snpindel/aux/ances
 
 #pops to run (META = all samples)
 POPS = {
-#    "META": None,
-    "EUR":  "eur",
+    "META": None,
+#    "EUR":  "eur",
 #    "AFR":  "afr",
 #    "AMR":  "amr",
 }
