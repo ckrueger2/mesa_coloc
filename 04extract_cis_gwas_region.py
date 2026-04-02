@@ -128,7 +128,7 @@ try:
     #if command succeeded 
     print("Cis region filtered file successfully saved to bucket.\n")
 
-copy_command = f"gsutil cp {filtered_path} /home/jupyter/
+copy_command = f"gsutil cp {filtered_path} /home/jupyter/"
 os.system(copy_command)
 
 except subprocess.CalledProcessError:
